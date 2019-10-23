@@ -9,11 +9,7 @@ class MyVisualizer extends AbstractVisualizer {
     }
 
     /**
-<<<<<<< HEAD
-     * TODO(you):
-=======
-     * TODO(week 4): 
->>>>>>> upstream/master
+     * TODO(week 4):
      * 1) Call drawShapes() to re-draw the visual at the current time index.
      *    -- If you want to "conditionally" draw (ex. only draw at a certain
      *    BEAT in the song), what do you need to add?
@@ -79,10 +75,11 @@ document.getElementById('playButton').addEventListener('click', (clickEvent) => 
   if(!audioEl.src) {
     // TODO(you): Use the spotifyApi to searchTracks for your input. Documentation can be found at:
     // https://doxdox.org/jmperez/spotify-web-api-js#src-spotify-web-api.js-constr.prototype.searchtracks
-    spotifyApi.searchTracks('Beautiful People', {limit: 1})
+    spotifyApi.searchTracks('Jesus in LA', {limit: 1})
       .then((results) => {
           // TODO(you): Access track from results to find a previewUrl.
-        let previewUrl = "https://p.scdn.co/mp3-preview/f94d8d0c1b37773ff493e7d83930545e3425ccd3?cid=2afca98576b4421595a2802803d0b92a";
+        //let previewUrl = "https://p.scdn.co/mp3-preview/68b70525da23fd56860cf53bd7c4d8429e56f4db?cid=2afca98576b4421595a2802803d0b92a";
+        let previewUrl = results.tracks.items[0].preview_url;
         if (previewUrl) {
           // Sets the HTML audio element source to the music.
           audioEl.src = previewUrl;
