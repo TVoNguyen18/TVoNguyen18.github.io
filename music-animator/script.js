@@ -9,7 +9,11 @@ class MyVisualizer extends AbstractVisualizer {
     }
 
     /**
+<<<<<<< HEAD
      * TODO(you):
+=======
+     * TODO(week 4): 
+>>>>>>> upstream/master
      * 1) Call drawShapes() to re-draw the visual at the current time index.
      *    -- If you want to "conditionally" draw (ex. only draw at a certain
      *    BEAT in the song), what do you need to add?
@@ -45,7 +49,7 @@ class MyVisualizer extends AbstractVisualizer {
     }
 
     /**
-     * TODO(you): Draw the shapes you'd expect to see in your visual.
+     * TODO(week 4): Draw the shapes you'd expect to see in your visual.
      */
     drawShapes() {
         // Look at AbstractVisualizer class for functions.
