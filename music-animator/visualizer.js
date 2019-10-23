@@ -26,19 +26,41 @@ class AbstractVisualizer {
     context.lineTo(point4.x, point4.y);
     context.lineTo(point1.x, point1.y);
     context.fill();
+    context.lineWidth = rectangleProperties.width;
+    context.strokeStyle = rectangleProperties.color;
+    context.stroke();
+  }
+
+  drawSquare(startingPoint, sideLength, squareProperties) {
+    const context = this.canvas.getContext("2d");
+    context.fillStyle = rectangleProperties.color;
+    context.moveTo(point1.x, point1.y);
+    context.beginPath();
+
+    //Top right
+    context.lineTo(point1.x + sideLength, point1.y);
+
+    //Bottom right
+    context.lineTo(point1.x + sideLength, point1.y + sideLength);
+
+    //Bottom left
+    context.lineTo(point1.x, point1.y + sideLength);
+
+    //Move back -- Top left
+    context.lineTo(point1.x, point1.y);
+
+    context.fill();
     context.lineWidth = rectableProperties.width;
     context.strokeStyle = rectangleProperties.color;
     context.stroke();
   }
 
-  drawSquare() {
-    // TODO(week 3): Implement.
-  }
-
   drawCircle() {
-    // TODO(week 3): Implement.
-    // See here for more information:
-    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/arc
+    const c = document.getElementById("canvas");
+    const ctx = c.getContext("2d");
+    ctx.beginPath();
+    ctx.arc(95, 50, 40, 0, 2 * Math.PI);
+    ctx.stroke();
   }
 
   drawBackground(canvas, canvasDimensions, color = BACKGROUND_COLOR) {
