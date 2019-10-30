@@ -1,5 +1,5 @@
 class MyVisualizer extends AbstractVisualizer {
-    constructor(analyzedAudio) {
+    constructor(analyzedAudio = []) {
       super();
       this.peaks = analyzedAudio.peaks;
     }
@@ -18,6 +18,7 @@ class MyVisualizer extends AbstractVisualizer {
      */
     updateVisual(peakIndex) {
       const audioEl = document.querySelector('#audio');
+      //debugger;
 
       // If we pass an index greater than the # peaks,
       if (peakIndex >= this.peaks.length) {
@@ -30,11 +31,14 @@ class MyVisualizer extends AbstractVisualizer {
       // 3) Compare the time properties to peak properties (part 1 and 2 above):
       //    -- If the audio's current time is greater or equal to the time of
       //    the peak, draw visualizations (drawShapes).
-      if (true) {
+      if (audioEl.currentTime >= this.peaks[peakIndex]["timeOfPeak"]) {
+
+        this.drawShapes();
 
         // Update the frame.
         requestAnimationFrame(() => {
-          this.updateVisual(peakIndex + 1)
+          this.updateVisual(peakIndex + 1);
+
         });
       } else {
         // Otherwise, render the current (existing) visualization)
@@ -48,7 +52,8 @@ class MyVisualizer extends AbstractVisualizer {
      * TODO(week 4): Draw the shapes you'd expect to see in your visual.
      */
     drawShapes() {
-        // Look at AbstractVisualizer class for functions.
+      this.drawCircle(generateRandomPoint(), 40, generateRandomColor());
+      this.drawSquare(generateRandomPoint(), 50, generateRandomColor());
     }
 }
 
@@ -79,20 +84,24 @@ document.getElementById('playButton').addEventListener('click', (clickEvent) => 
       .then((results) => {
           // TODO(you): Access track from results to find a previewUrl.
         let previewUrl = results.tracks.items[0].preview_url;
+        let visualizer = new MyVisualizer();
         if (previewUrl) {
+          //let  visualizer = new AbstractVisualizer();
           // Sets the HTML audio element source to the music.
           audioEl.src = previewUrl;
 
           requestAudio(previewUrl, (audio) => {
             // TODO(you): Use analyzeAudio to apply frequency analysis.
-
+            let analyzedAudio = analyzeAudio(audio);
             // TODO(you): Create an instance of MyVisualizer using the
             // analyzed audio.
+
+            let myVisualize = new MyVisualizer(analyzedAudio);
 
             audioEl.play();
 
             // Use MyVisualizer's startVisual to start visualization.
-            visualizer.startVisual();
+            myVisualize.startVisual();
           });
         } else {
           console.warn('This song does not have a preview');
@@ -112,3 +121,10 @@ document.getElementById('playButton').addEventListener('click', (clickEvent) => 
 		document.getElementById('playCircle').setAttribute("class", "playing");
   }
 });
+
+
+/*let visualizer = new MyVisualizer();
+visualizer.drawRectangle(generateRandomPoint(), generateRandomPoint(), generateRandomPoint(), generateRandomPoint(), generateRandomColor());
+visualizer.drawStar(100, generateRandomPoint(), generateRandomColor());
+visualizer.drawCircle(generateRandomPoint(), 40, generateRandomColor());
+visualizer.drawSquare(generateRandomPoint(), 50, generateRandomColor());*/
