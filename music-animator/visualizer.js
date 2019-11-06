@@ -99,6 +99,12 @@ class AbstractVisualizer {
     ctx.strokeStyle = starProperties.color;
     ctx.stroke();
   }
+
+  clearCanvas() {
+    const context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+  }
 }
 
 
@@ -126,7 +132,7 @@ function generateRandomPoint() {
   // HINT: we can use the constants CANVAS_HEIGHT and CANVAS_WIDTH for the max
   //     x and y values.
   return {
-    x: generateRandomValue(0, 1000),
-    y: generateRandomValue(0, 600)
+    x: generateRandomValue(0, CANVAS_WIDTH),
+    y: generateRandomValue(0, CANVAS_HEIGHT)
   };
 }

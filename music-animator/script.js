@@ -32,7 +32,8 @@ class MyVisualizer extends AbstractVisualizer {
       //    -- If the audio's current time is greater or equal to the time of
       //    the peak, draw visualizations (drawShapes).
       if (audioEl.currentTime >= this.peaks[peakIndex]["timeOfPeak"]) {
-
+        this.clear();
+        this.start();
         this.drawShapes();
 
         // Update the frame.
@@ -44,6 +45,7 @@ class MyVisualizer extends AbstractVisualizer {
         // Otherwise, render the current (existing) visualization)
         requestAnimationFrame(() => {
           this.updateVisual(peakIndex)
+
         });
       }
     }
@@ -52,8 +54,17 @@ class MyVisualizer extends AbstractVisualizer {
      * TODO(week 4): Draw the shapes you'd expect to see in your visual.
      */
     drawShapes() {
-      this.drawCircle(generateRandomPoint(), 40, generateRandomColor());
-      this.drawSquare(generateRandomPoint(), 50, generateRandomColor());
+      for (let i = 0; i < generateRandomValue(1, 7); i++) {
+        this.drawCircle(generateRandomPoint(), generateRandomValue(10, 200), generateRandomColor());
+        this.drawSquare(generateRandomPoint(), generateRandomValue(10, 100), generateRandomColor());
+      }
+      this.drawStar(generateRandomValue(10, 100), generateRandomPoint(), generateRandomColor());
+      this.drawStar(generateRandomValue(20, 80), generateRandomPoint(), generateRandomColor());
+    }
+
+    clear() {
+      this.clearCanvas();
+
     }
 }
 
@@ -124,6 +135,7 @@ document.getElementById('playButton').addEventListener('click', (clickEvent) => 
 
 
 /*let visualizer = new MyVisualizer();
+{x: y:} -->generateRandomPoint()
 visualizer.drawRectangle(generateRandomPoint(), generateRandomPoint(), generateRandomPoint(), generateRandomPoint(), generateRandomColor());
 visualizer.drawStar(100, generateRandomPoint(), generateRandomColor());
 visualizer.drawCircle(generateRandomPoint(), 40, generateRandomColor());
