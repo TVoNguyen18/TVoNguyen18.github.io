@@ -23,7 +23,7 @@ class Canvas {
         this.setGridSize(11);
     }
 
-    draw() {
+    draw(cells) {
         let ctx = this.ctx;
 		let size = this.cellSize;
 
@@ -53,7 +53,19 @@ class Canvas {
     }
 
     click(fn) {
+        let gameCanvas = this.obj.getBoundingClientRect();
+        this.obj.addEventListener('click', (event) => {
+            //let gameCanvas = this.obj.getBoundingClientRect();
+            let left = gameCanvas.left;
+            let top = gameCanvas.top;
+            event.cellX = Math.floor(((event.clientX - left) / this.cellSize))
+            event.cellY = Math.floor(((event.clientY - top) / this.cellSize))
 
+            console.log(left + "and top: " + top);
+
+            console.log("Event.cellX: " + event.cellX + " event.cellY:" + event.cellY);
+            //fn(clickEvent)
+        })
     }
 
     getDimension() {
@@ -119,7 +131,9 @@ class Controls {
     }
 
     init(shapes) {
-
+        this.canvas.click((event) => {
+                debugger
+        });
     }
 
     setGeneration(gen) {
@@ -148,3 +162,4 @@ let gameOfLifeInstance = new GameOfLife();
 let controlsInstance = new Controls(canvasInstance, shapeInstance, gameOfLifeInstance);
 
 canvasInstance.draw();
+controlsInstance.init(shapeInstance.collection);
