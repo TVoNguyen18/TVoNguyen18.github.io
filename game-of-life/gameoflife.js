@@ -6,7 +6,10 @@ class GameOfLife {
     }
 
     next(shape) {
-
+        for (let i = 0; i < shape.length; i++) {
+            let key = "c" + shape[i][0] + ", " + shape[i][1];
+        }
+        return shape;
     }
 }
 
@@ -26,6 +29,7 @@ class Canvas {
     draw(cells) {
         let ctx = this.ctx;
 		let size = this.cellSize;
+        let cell;
 
 		ctx.fillStyle = "#7e7e7e";
 		ctx.lineWidth = 1;
@@ -47,9 +51,15 @@ class Canvas {
 
 		ctx.fillStyle = "yellow";
 		ctx.lineWidth = 1;
+
 		/*this.forEach(function(cell, i) {
-            ctx.fillRect(cell[0]*size+1, cell[1]*size+1, size-1, size-1);
+            ctx.fillRect(cells[0]*size+1, cells[1]*size+1, size-1, size-1);
         });*/
+
+        for(let i = 0; i < cells.length; i++) {
+            cell = cells[i];
+            ctx.fillRect(cell[0] * size + 1, cell[1] * size + 1, this.cellSize - 1, this.cellSize - 1);
+        }
     }
 
     click(fn) {
@@ -58,14 +68,16 @@ class Canvas {
             //let gameCanvas = this.obj.getBoundingClientRect();
             let left = gameCanvas.left;
             let top = gameCanvas.top;
-            event.cellX = Math.floor(((event.clientX - left) / this.cellSize))
-            event.cellY = Math.floor(((event.clientY - top) / this.cellSize))
+            let cellX = Math.floor(((event.clientX - left) / this.cellSize))
+            let cellY = Math.floor(((event.clientY - top) / this.cellSize))
 
             console.log(left + "and top: " + top);
 
-            console.log("Event.cellX: " + event.cellX + " event.cellY:" + event.cellY);
-            //fn(clickEvent)
-        })
+            console.log("Event.cellX: " + cellX + " event.cellY:" + cellY);
+            fn({cellX, cellY});
+        });
+
+
     }
 
     getDimension() {
@@ -91,7 +103,7 @@ class Shape {
     }
 
     get() {
-
+        return this.current;
     }
 
     set(shape) {
@@ -103,7 +115,7 @@ class Shape {
     }
 
     redraw() {
-
+        this.canvas.draw(this.current);
     }
 
     center() {
@@ -115,7 +127,8 @@ class Shape {
     }
 
     toggle(cell) {
-
+        this.current.push(cell);
+        this.redraw();
     }
 }
 
@@ -131,8 +144,15 @@ class Controls {
     }
 
     init(shapes) {
+        this.shape.redraw()
         this.canvas.click((event) => {
-                debugger
+            this.shape.toggle([event.cellX, event.cellY]);
+        });
+
+        this.nextElement = document.getElementById("next");
+
+        this.nextElement.addEventListener("click", (event) => {
+            this.next();
         });
     }
 
@@ -145,8 +165,23 @@ class Controls {
     }
 
     next() {
+        console.log("Reeeee");
+        let shapeData = this.shape.get();
+        this.shape.set(this.gameoflife.next(shapeData));
+        this.shape.redraw();
+        console.log("This works!");
+    }
+}
+
+class Neighbors {
+    constructor(n, cell, populated) {
+        this.n = n;
+        this.cell = cell;
+        this.populated = populated;
+
 
     }
+
 }
 
 //Below the classes
@@ -161,5 +196,5 @@ let gameOfLifeInstance = new GameOfLife();
 
 let controlsInstance = new Controls(canvasInstance, shapeInstance, gameOfLifeInstance);
 
-canvasInstance.draw();
+canvasInstance.draw([]);
 controlsInstance.init(shapeInstance.collection);
