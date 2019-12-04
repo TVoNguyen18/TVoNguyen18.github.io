@@ -40,7 +40,7 @@ construction, the `Canvas` class should:
 *   Store the width/height: `this.pixelWidth` and `this.pixelHeight.  For now,
     the values assigned should be 803 (width) and 506 (height).
 *   Append the canvasElement to the container, using `appendChild`
-*   Store the context: `this.ctx` (the canvas` 2d context) which should be set
+*   Store the context: `this.ctx` (the canvas 2d context) which should be set
     to the canvas' context, via `getContext('2d')`
 *   Call the class method `setGridSize` and pass in the argument `11`.
 
@@ -119,8 +119,7 @@ As a team, work to instantiate the appropriate objects (class instances).
 2.  Create an instance of `Canvas`, which takes in the `canvasElement` (from Step 1)
 3.  Create an instance of `Shape`, which takes in the `Canvas` instance created
     in Step 2
-4.  Create an instance of `GameOfLife`, which takes in the `Canvas` instance
-    created in Step 2
+4.  Create an instance of `GameOfLife`, which takes in no input parameters.
 5.  Create an instance of `Controls`, which takes in the `Canvas` instance (Step
     2), `Shape` instance (Step 3), and `GameOfLife` instance (Step 4)
 
