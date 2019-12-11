@@ -6,10 +6,143 @@ class GameOfLife {
     }
 
     next(shape) {
+        let neighbors = {};
         for (let i = 0; i < shape.length; i++) {
-            let key = "c" + shape[i][0] + ", " + shape[i][1];
+
+            // Top-left (-1 , -1)
+            let key = "c" + (shape[i][0] - 1) + ", " + (shape[i][1] - 1);
+
+            if (neighbors[key]) {
+                neighbors[key].n++;
+            } else {
+                neighbors[key] = {
+                    n: 1,
+                    cell: [shape[i][0] - 1, shape[i][1] - 1]
+                    //populated: true
+                };
+            }
+
+            //Top (0, -1)
+            key = "c" + (shape[i][0]) + ", " + (shape[i][1] - 1);
+            if (neighbors[key]) {
+                neighbors[key].n++;
+            } else {
+                neighbors[key] = {
+                    n: 1,
+                    cell: [shape[i][0], shape[i][1] - 1]
+                    //populated: true
+                };
+            }
+
+            // Top-right (+1, -1)
+            key = "c" + (shape[i][0] + 1) + ", " + (shape[i][1] - 1);
+            if (neighbors[key]) {
+                neighbors[key].n++;
+            } else {
+                neighbors[key] = {
+                    n: 1,
+                    cell: [shape[i][0] + 1, shape[i][1] - 1]
+                    //populated: true
+                };
+            }
+
+            //Bottom-left (-1, +1)
+            key = "c" + (shape[i][0] - 1) + ", " + (shape[i][1] + 1);
+            if (neighbors[key]) {
+                neighbors[key].n++;
+            } else {
+                neighbors[key] = {
+                    n: 1,
+                    cell: [shape[i][0] - 1, shape[i][1] + 1]
+                    //populated: true
+                };
+            }
+
+            //Bottom-right (+1, +1)
+            key = "c" + (shape[i][0] + 1) + ", " + (shape[i][1] + 1);
+            if (neighbors[key]) {
+                neighbors[key].n++;
+            } else {
+                neighbors[key] = {
+                    n: 1,
+                    cell: [shape[i][0] + 1, shape[i][1] + 1]
+                    //populated: true
+                };
+            }
+
+            //Bottom (0, +1)
+            key = "c" + (shape[i][0]) + ", " + (shape[i][1] + 1);
+            if (neighbors[key]) {
+                neighbors[key].n++;
+            } else {
+                neighbors[key] = {
+                    n: 1,
+                    cell: [shape[i][0], shape[i][1] + 1]
+                    //populated: true
+                };
+            }
+
+            //Left (-1, 0)
+            key = "c" + (shape[i][0] - 1) + ", " + (shape[i][1]);
+            if (neighbors[key]) {
+                neighbors[key].n++;
+            } else {
+                neighbors[key] = {
+                    n: 1,
+                    cell: [shape[i][0] - 1, shape[i][1]]
+                    //populated: true
+                };
+            }
+
+            //Right (+1, 0)
+            key = "c" + (shape[i][0] + 1) + ", " + (shape[i][1]);
+            if (neighbors[key]) {
+                neighbors[key].n++;
+            } else {
+                neighbors[key] = {
+                    n: 1,
+                    cell: [shape[i][0] + 1, shape[i][1]]
+                    //populated: true
+                };
+            }
+
+
+            //debugger;
         }
-        return shape;
+
+        for (let i = 0; i < shape.length; i++) {
+            let cell = shape[i];
+            let x = cell[0];
+            let y = cell[1];
+
+            let key = "c" + x + ", " + y;
+            if(neighbors[key]) {
+                neighbors[key].populated = true;
+            }
+        }
+
+        let nextShape = [];
+        for (let key in neighbors) {
+            let currentNeighbor = neighbors[key];
+            let numOfNeighbors = neighbors[key].n;
+            let populated = neighbors[key].populated;
+            let cell = neighbors[key].cell;
+
+            // If populated == true
+            if (neighbors[key].populated == true) {
+                if (neighbors[key].n == 2 || neighbors[key].n == 3) {
+                    nextShape.push(neighbors[key].cell);
+                    console.log("It survives");
+                }
+            } else {
+                if (neighbors[key].n == 3) {
+                    nextShape.push(neighbors[key].cell);
+                    console.log("I am a creator of cells");
+                }
+            }
+        }
+        //debugger;
+        return nextShape;
     }
 }
 
@@ -107,7 +240,7 @@ class Shape {
     }
 
     set(shape) {
-
+        this.current = shape;
     }
 
     copy(shape) {
@@ -165,7 +298,6 @@ class Controls {
     }
 
     next() {
-        console.log("Reeeee");
         let shapeData = this.shape.get();
         this.shape.set(this.gameoflife.next(shapeData));
         this.shape.redraw();
@@ -173,16 +305,17 @@ class Controls {
     }
 }
 
-class Neighbors {
+/*class Neighbors {
     constructor(n, cell, populated) {
         this.n = n;
         this.cell = cell;
         this.populated = populated;
 
+        let neig
 
     }
 
-}
+}*/
 
 //Below the classes
 
